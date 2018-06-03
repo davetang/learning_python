@@ -1,6 +1,6 @@
 # README
 
-Python is a general-purpose programming language [that is very popular](https://madnight.github.io/githut/). In bioinformatics, Python has replaced Perl as the scripting language of choice, which means there's a lot more Python scripts in my area of work. I'd like to learn Python to help me better understand a lot of bioinformatic scripts/tools.
+Python is a general-purpose programming language [that is very popular](https://madnight.github.io/githut/). I have wanted to learn Python for a long time but have put it off because I could get everything done in Perl and R. However, recently I've been working with [Snakemake](https://snakemake.readthedocs.io/en/stable/#), which is a workflow management system based on Python, and realised that knowing Python would help me use the tool better. In addition, a lot of my colleagues are using Python, so it helps to be able read and write Python.
 
 # The Jupyter Notebook
 
