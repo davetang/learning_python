@@ -4,7 +4,9 @@ Python is a general-purpose programming language [that is very popular](https://
 
 # The Jupyter Notebook
 
-The notebook formerly known as the [IPython Notebook](https://ipython.org/notebook.html) has also been on my list of things to learn. It serves as an interactive session for interweaving code and plain text. After [installation](https://jupyter.readthedocs.io/en/latest/install.html), run `jupyter notebook` to host an interactive session. I will use Jupyter notebooks to keep track of my Python code.
+The notebook formerly known as the [IPython Notebook](https://ipython.org/notebook.html) has also been on my list of things to learn. It serves as an interactive session for interweaving code and plain text. After [installation](https://jupyter.readthedocs.io/en/latest/install.html), run `jupyter notebook` to host an interactive session. I will use Jupyter notebooks to keep track of my Python code. Below are some useful links:
+
+* [Comprehensive Beginner’s Guide to Jupyter Notebooks for Data Science & Machine Learning](https://www.analyticsvidhya.com/blog/2018/05/starters-guide-jupyter-notebook/)
 
 # Reticulate
 
