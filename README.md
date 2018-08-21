@@ -4,9 +4,25 @@ Python is a general-purpose programming language [that is very popular](https://
 
 # The Jupyter Notebook
 
-The notebook formerly known as the [IPython Notebook](https://ipython.org/notebook.html) has also been on my list of things to learn. It serves as an interactive session for interweaving code and plain text. After [installation](https://jupyter.readthedocs.io/en/latest/install.html), run `jupyter notebook` to host an interactive session. I will use Jupyter notebooks to keep track of my Python code. Below are some useful links:
+The notebook formerly known as the [IPython Notebook](https://ipython.org/notebook.html) has also been on my list of things to learn. It serves as an interactive session for interweaving code and plain text. Just install [Anaconda](https://www.continuum.io/downloads) for your operating system and that will install [Jupyter Notebook](https://jupyter.readthedocs.io/en/latest/install.html).
+
+    wget -c https://repo.anaconda.com/archive/Anaconda3-5.2.0-Linux-x86_64.sh
+    bash Anaconda3-5.2.0-Linux-x86_64.sh
+    source ~/.bashrc
+
+After installation, run `jupyter notebook` to host an interactive session. I will use Jupyter notebooks to keep track of my Python code. Below are some useful links:
 
 * [Comprehensive Beginner’s Guide to Jupyter Notebooks for Data Science & Machine Learning](https://www.analyticsvidhya.com/blog/2018/05/starters-guide-jupyter-notebook/)
+
+## Shortcuts
+
+Some shortcuts:
+
+* The notebook has a command and edit mode; press `escape` to enter command mode and press `enter` to enter edit mode.
+* In command mode, press `m` to change a cell to Markdown and `y` to change a cell to code
+* Control+enter to execute code
+* `a` and `b` to insert a cell above and below, respectively
+* Vim shortcuts like `dd` and `hjkl` work in command mode
 
 # Reticulate
 
