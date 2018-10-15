@@ -32,6 +32,21 @@ The [reticulate package](https://github.com/rstudio/reticulate) provides a compr
     library(reticulate)
     use_python("/anaconda3/bin/python")
 
+Check configurations
+
+    # check if Python is available
+    py_available()
+    
+    # check Python config
+    py_config()
+    
+    # check if module is available
+    py_module_available("umap")
+    
+    # check version of Python to use with reticulate
+    # and location of module
+    py_discover_config("umap")
+
 Using Python in R Markdown
 
     ```{python}
