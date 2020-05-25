@@ -24,6 +24,16 @@ Some shortcuts:
 * `a` and `b` to insert a cell above and below, respectively
 * Vim shortcuts like `dd` and `hjkl` work in command mode
 
+## Docker
+
+Jupyter Docker Stacks are a set of ready-to-run Docker images containing Jupyter applications and interactive computing tools. Use [jupyter/scipy-notebook](https://jupyter-docker-stacks.readthedocs.io/en/latest/using/selecting.html#jupyter-scipy-notebook), which includes popular packages from the scientific Python ecosystem.
+
+    docker pull jupyter/scipy-notebook:latest
+
+Running a container from this GitHub repository to access the `notebook` directory.
+
+    docker run -v "$PWD":/home/jovyan/work -p 8888:8888 jupyter/scipy-notebook:latest
+
 # Reticulate
 
 The [reticulate package](https://github.com/rstudio/reticulate) provides a comprehensive set of tools for interoperability between Python and R. Reticulate embeds a Python session within your R session, enabling seamless, high-performance interoperability.
