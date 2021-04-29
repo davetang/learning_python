@@ -1,0 +1,54 @@
+---
+title: "The reticulate package"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+The [reticulate](https://rstudio.github.io/reticulate/) package provides a comprehensive set of tools for interoperability between Python and R.
+
+Install the package (if you haven't already).
+
+```{r install}
+if(!require("reticulate")){
+  install.packages("reticulate")
+}
+```
+
+Python interpreter in PATH.
+
+```{r which_python_before}
+Sys.which("python")
+```
+
+Use the Conda Python (`required = TRUE` is necessary to force the change) and print out config.
+
+```{r use_python}
+use_python(python = "/Users/dtang/miniconda3/bin/python", required = TRUE)
+py_config()
+```
+
+Python interpreter after using `use_python`.
+
+```{r which_python_after}
+Sys.which("python")
+```
+Import the Python module `sys` and get Python version.
+
+```{python}
+import sys
+print(sys.version)
+```
+
+To install `numpy`, run `pip install numpy` but make sure you are using the Conda `pip`.
+
+Import `numpy`, create a `numpy` array, and print out `type`.
+
+```{python}
+import numpy as np
+
+number = np.array(list(range(11, 17)))
+print(type(number))
+```
