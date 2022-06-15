@@ -12,6 +12,7 @@ docker run -d \
    -p ${port}:8888 \
    --name ${container_name} \
    -v $(pwd):/data \
+   -w "/data" \
    ${image}
 
 >&2 echo ${container_name} listening on port ${port}
