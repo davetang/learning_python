@@ -13,11 +13,15 @@ port=10000
 #
 # You will not be able to list currently running servers to obtain a token.
 # Therefore just use the username jovyan
+#
+# In addition, you need to run as root (`--user root`)
+# or else you will not be able to edit mounted files
 
 docker run -d \
    --rm \
    -p ${port}:8888 \
    --name ${container_name} \
+   --user root \
    -e NB_UID=$(id -u) \
    -e NB_GID=$(id -g) \
    -v $(pwd):/home/jovyan/work \
