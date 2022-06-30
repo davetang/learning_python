@@ -1,17 +1,6 @@
 # README
 
-Python is a general-purpose programming language [that is very popular](https://madnight.github.io/githut/). I have wanted to learn Python for a long time but have put it off because I could get everything done in Perl and R. However, recently I've been working with [Snakemake](https://snakemake.readthedocs.io/en/stable/#), which is a workflow management system based on Python, and realised that knowing Python would help me use the tool better. In addition, a lot of my colleagues are using Python, so it helps to be able read and write Python.
-
-# Conda environment
-
-Create a new Conda environment for learning Python.
-
-    conda env create -f learning_python.yml
-    conda activate learning_python
-    which python
-    # ~/miniconda3/envs/learning_python/bin/python
-    which pip
-    # ~/miniconda3/envs/learning_python/bin/pip
+Python is a general-purpose programming language [that is very popular](https://madnight.github.io/githut/). I have wanted to learn Python for a long time but have put it off because I could get everything done using Bash, Perl, and R. However, recently I have been learning about deep learning and while I can use R and Keras, it is easier to use Python. I will keep my notes as Jupyter notebooks stored in `notebook`.
 
 # The Jupyter Notebook
 
@@ -21,21 +10,9 @@ The notebook formerly known as the [IPython Notebook](https://ipython.org/notebo
     bash Anaconda3-5.2.0-Linux-x86_64.sh
     source ~/.bashrc
 
-After installation, run `jupyter notebook` to host an interactive session. I will use Jupyter notebooks to keep track of my Python code. Below are some useful links:
+After installation, run `jupyter notebook` to host an interactive session. See the [Comprehensive Beginner’s Guide to Jupyter Notebooks for Data Science & Machine Learning](https://www.analyticsvidhya.com/blog/2018/05/starters-guide-jupyter-notebook/) for a nice introduction to Jupyter notebooks.
 
-* [Comprehensive Beginner’s Guide to Jupyter Notebooks for Data Science & Machine Learning](https://www.analyticsvidhya.com/blog/2018/05/starters-guide-jupyter-notebook/)
-
-## Shortcuts
-
-Some shortcuts:
-
-* The notebook has a command and edit mode; press `escape` to enter command mode and press `enter` to enter edit mode.
-* In command mode, press `m` to change a cell to Markdown and `y` to change a cell to code
-* Control+enter to execute code
-* `a` and `b` to insert a cell above and below, respectively
-* Vim shortcuts like `dd` and `hjkl` work in command mode
-
-## Docker
+## Jupyter Notebook using Docker
 
 [Jupyter Docker Stacks](https://jupyter-docker-stacks.readthedocs.io/en/latest/index.html) are a set of ready-to-run Docker images containing Jupyter applications and interactive computing tools. Use [jupyter/tensorflow-notebook](https://jupyter-docker-stacks.readthedocs.io/en/latest/using/selecting.html#jupyter-tensorflow-notebook), which includes popular packages from the scientific Python ecosystem and the `tensorflow` and `keras` machine learning libraries.
 
@@ -81,6 +58,20 @@ exit 0
 ```
 
 See [Common Features](https://jupyter-docker-stacks.readthedocs.io/en/latest/using/common.html) for configurating the Jupyter Server with Docker.
+
+## Jupyter Notebook shortcuts
+
+In your Jupyter notebook, click on `Help` and then select `Keyboard Shortcuts` to see a comprehensive list of shortcuts.
+
+Below are some shortcuts that I have found useful:
+
+* The notebook has a command and edit mode; press `escape` to enter command mode and press `enter` to enter edit mode.
+* In command mode, press `m` to change a cell to Markdown and `y` to change a cell to code
+* Control+enter to execute code
+* `a` and `b` to insert a cell above and below, respectively
+* Vim shortcuts like `dd` and `hjkl` work in command mode
+* If you want to split a cell, enter edit mode in the cell and move the cursor to where you want the split, then press control+shift+- (hyphen)
+* To merge a cell, select the cells in command mode (shift+ up/down arrows), and then press shift+m
 
 # Reticulate
 
