@@ -40,6 +40,20 @@ else
    >&2 echo swc already exists
 fi
 
+# Biopython files
+if [[ ! -e ls_orchid.fasta ]]; then
+   >&2 echo Downloading ls_orchid.fasta
+   wget --quiet https://raw.githubusercontent.com/biopython/biopython/master/Doc/examples/ls_orchid.fasta
+else
+   >&2 echo ls_orchid.fasta already exists
+fi
+if [[ ! -e ls_orchid.gbk ]]; then
+   >&2 echo Downloading ls_orchid.gbk
+   wget --quiet https://raw.githubusercontent.com/biopython/biopython/master/Doc/examples/ls_orchid.gbk
+else
+   >&2 echo ls_orchid.gbk already exists
+fi
+
 >&2 echo Done
 exit 0
 
