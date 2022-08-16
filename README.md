@@ -18,7 +18,7 @@ After installation, run `jupyter notebook` to host an interactive session. See t
 
     docker pull jupyter/tensorflow-notebook:latest
 
-The script `docker_run.sh` (shown below) will start a Docker container called `tensorflow-notebook` that mounts the current directory on the host machine to `/data/` in the Docker container and listens on port 10000. Run `docker exec tensorflow-notebook jupyter notebook list` after starting the container to obtain the token needed to log into the notebook server.
+The script `run_docker_tensorflow_notebook.sh` (shown below) will start a Docker container called `tensorflow-notebook` that mounts the current directory on the host machine to `/data/` in the Docker container and listens on port 10000. Run `docker exec tensorflow-notebook jupyter notebook list` after starting the container to obtain the token needed to log into the notebook server.
 
 ```bash
 #!/usr/bin/env bash
