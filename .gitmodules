@@ -1,0 +1,3 @@
+[submodule "bioinformatics-pipeline-tutorial"]
+	path = bioinformatics-pipeline-tutorial
+	url = https://github.com/ricomnl/bioinformatics-pipeline-tutorial.git
