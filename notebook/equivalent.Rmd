@@ -1,5 +1,5 @@
 ---
-title: "Equivalents in R, Python and Perl"
+title: "Equivalents in R, Python, and Perl"
 date: "`r Sys.Date()`"
 output:
   html_document:
@@ -11,96 +11,120 @@ urlcolor: blue
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-knitr::opts_chunk$set(engine.path = list(perl = '/usr/local/ActivePerl-5.24/bin/perl', python = '/anaconda3/bin/python'))
 ```
 
 # Introduction
 
-I started a blog post back in 2012 to provide the corresponding code for common programming tasks in [R, Python, and Perl](https://davetang.org/muse/2012/05/03/equivalents-in-r-python-and-perl/). However, at that time I had limited experience with R and Python so the post was very short. I have been using R quite often over the last couple of years and have a better appreciation of the language now.
+Different programming languages each have different strengths and weaknesses and thus it is advantageous to learn more than one language. For example, statistical analyses should be performed using a statistical language such as R whereas machine learning is (probably) best performed with Python where there are a lot of machine learning libraries, especially state-of-the-art frameworks like TensorFlow.
 
-I have finally decided to learn Python, so I thought I'll revisit my old post and update it. However, it's not convenient to use WordPress. Instead, I'll use R Markdown to document the code since [other languages](https://yihui.name/knitr/demo/engines/) are supported by `knitr`.
+This document contrasts code across R, Python, and Perl. Perl is included because it was the first language I learned and thus provides a point of reference. I use R and I am starting to use Python more often for work, so maintaining this document helps me familiarise R and Python code. I started a blog post [a long time ago](https://davetang.org/muse/2012/05/03/equivalents-in-r-python-and-perl/) for this purpose but it didn't get very far because I just resorted back to using Perl (because it was quicker in the short term). Most of the tools and libraries I use for work are written in either R or Python (or both!). Thus I am finally going to devote more time into learning R and Python.
 
-# Engines
+R Markdown and the RStudio IDE provides a nice platform for writing up code equivalents since [other language](https://bookdown.org/yihui/rmarkdown-cookbook/other-languages.html) are supported in R Markdown through the knitr package.
 
-`knitr` supports various [language engines](https://rmarkdown.rstudio.com/authoring_knitr_engines.html) including Perl and Python. I am using RStudio to edit my R Markdown file and the default Perl and Python interpreter are used to evaluate the code.
-
-```{r default_interpreter}
-Sys.which("perl")
-Sys.which("python")
+```{r knitr_engines}
+names(knitr::knit_engines$get())
 ```
 
-I don't mind the older Perl version but I would like to use Python 3 and the version in `/usr/bin/` is 2.7. You can specify which interpreter to use by setting `knitr::opts_chunk$set()`; I've set it to use ActivePerl and the Anaconda version of Python. After setting `engine.path`, different interpreters are used.
+The [reticulate package](https://github.com/rstudio/reticulate) provides an R interface to Python.
 
-Perl interpreter version used to evaluate the code in this document.
+```{r install_reticulate}
+if (!require("reticulate")){
+  install.packages("reticulate")
+}
+library(reticulate)
+```
 
-```{perl}
+Finally to run this R Markdown document, use the [davetang/rstudio_python](https://hub.docker.com/repository/docker/davetang/rstudio_python) Docker image.
+
+R version used.
+
+```{r r_version}
+paste(R.version$major, R.version$minor, sep=".")
+```
+
+Perl version used.
+
+```{perl_version}
 print("$^X\t$^V\n")
 ```
 
-Python interpreter version used to evaluate the code in this document.
+Python version used.
 
-```{python}
+```{python_version}
 import sys
 print(sys.version)
-```
-
-## Reticulate
-
-In addition, the [reticulate package](https://github.com/rstudio/reticulate) provides an R interface to Python.
-
-```{r install_reticulate eval = FALSE}
-install.packages("reticulate")
-```
-
-Use `use_python` to specify the Python interpreter to use.
-
-```{r}
-library(reticulate)
-use_python("/anaconda3/bin/python")
-```
-
-Run some Python code.
-
-```{python}
-import sys
-print(sys.version)
-print(range(0,11))
 ```
 
 # Hello world
 
-I'll start with a [hello world](https://en.wikipedia.org/wiki/%22Hello,_World!%22_program) example.
+Let's start with the obligatory [hello world](https://en.wikipedia.org/wiki/%22Hello,_World!%22_program) example.
 
-In R, `cat` can be used to conceatenate and print out atomic types (those that are composed of only one data type), whereas `print` is more versatile.
+## R
 
-```{r r_hello}
+In R, `cat` can be used to concatenate and print out atomic types (those that are composed of only one data type) however `print` is more versatile.
+
+```{r}
 cat("Hello world!\n")
-print("Hello world!")
+print("Hello world again!")
 
-# non-atomic data types will produce an erro
+# non-atomic data types will produce an error
 # cat(list(a = 1:10))
 # cat(data.frame(a = 1:10))
-
-print(list(a = 1:10))
+# but print works
+# print(list(a = 1:10))
 ```
 
-In Python, use `print` to print out values.
+You can also use the [glue](https://glue.tidyverse.org/) package, which makes it easier to print with variables.
+
+```{r}
+library(glue)
+msg <- 'Hello World'
+glue('{msg} again!')
+```
+
+## Python
+
+In Python, use `print()` to print out data.
 
 ```{python}
 print("Hello world!")
-print(1984)
 ```
 
-In Perl, use `print` to print out values. Notice that I need a newline escape (`\n`) to print the output on separate lines. In addition, I need to terminate each line of code with a semi-colon.
+There are three ways to include variables into the print statement. The [old way](https://docs.python.org/3/tutorial/inputoutput.html#old-string-formatting) by using the `%` (modulo) operator.
+
+```{python}
+print("%s again!" % "Hello world")
+```
+
+Another way is to use [str.format](https://docs.python.org/3/library/stdtypes.html#str.format).
+
+```{python}
+print("{} again!".format("Hello world"))
+```
+
+Lastly you can use [formatted string literals](https://docs.python.org/3/reference/lexical_analysis.html#f-strings) which is recommended over string formatting.
+
+```{python}
+msg = "Hello world"
+print(f"{msg} again!")
+```
+
+## Perl
+
+In Perl, use `print` or [say](https://perldoc.perl.org/functions/say) to print out values; the former requires a newline escape (`\n`) whereas the latter does not. A `use v5.10;` declaration (or higher) is needed to enable `say`. In Perl, lines need to be terminated with a semi-colon (`;`).
 
 ```{perl}
 print("Hello world!\n");
-print("1984\n")
+
+use v5.10;
+say("Hello world again!");
 ```
 
 # Data types
 
 A [data type](https://en.wikipedia.org/wiki/Data_type) is a specific classification of data.
+
+## R
 
 In R, there are the character, double, integer, logical, and complex types.
 
@@ -111,6 +135,8 @@ typeof(2L)
 typeof(FALSE)
 typeof(2i)
 ```
+
+## Python
 
 In Python, there are the string, float, integer, Boolean, and complex types.
 
@@ -129,16 +155,19 @@ print(type([]))
 print(type({}))
 ```
 
+## Perl
+
 Perl has no type. The following code will execute without the interpreter throwing any errors.
 
 ```{perl}
-print(1 + 1, "\n");
-print(1.0 + 1, "\n");
-print(1 + "1", "\n");
-print(1e3 + "1", "\n");
-print(0xE1 + "1", "\n");
-print(1 + "TRUE", "\n");
-print("False" + "TRUE")
+use v5.10;
+say(1 + 1);
+say(1.0 + 1);
+say(1 + "1");
+say(1e3 + "1");
+say(0xE1 + "1");
+say(1 + "TRUE");
+say("False" + "TRUE");
 ```
 
 # Data structures
@@ -219,8 +248,14 @@ for my $i (@a) {
 
 In R: https://cran.r-project.org/web/packages/hash/index.html
 
-```{r}
+```{r install_hash}
+if(!require(hash)){
+  install.packages("hash")
+}
 library(hash)
+```
+
+```{r}
 my_hash <- hash(keys = c('colour', 'book', 'movie'),
                 values = c('blue', '1984', 'Memento'))
 
