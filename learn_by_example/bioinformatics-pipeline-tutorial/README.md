@@ -1,3 +1,18 @@
+Table of Contents
+=================
+
+   * [README](#readme)
+      * [01 digest protein](#01-digest-protein)
+         * [Load FASTA](#load-fasta)
+         * [Save peptides](#save-peptides)
+         * [Digest protein](#digest-protein)
+         * [Main](#main)
+      * [02 count amino acids](#02-count-amino-acids)
+      * [03a plot count](#03a-plot-count)
+      * [03b get report](#03b-get-report)
+
+Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+
 ## README
 
 These scripts were written for a [blog
