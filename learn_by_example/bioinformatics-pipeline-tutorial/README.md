@@ -269,3 +269,108 @@ acids in the full protein sequence.
 C	30	9	439	10
 ```
 
+### 03a plot count
+
+The `03a_plot_count.py` script plots the count output from
+`02_count_amino_acids.py` using [matplotlib](https://matplotlib.org/).
+
+```bash
+usage: 03a_plot_count.py [-h] input_file output_file
+
+positional arguments:
+  input_file   A .tsv file containing the peptide counts.
+  output_file  A .png output file to write the plot to. Use `show` to just
+               show the output.
+
+optional arguments:
+  -h, --help   show this help message and exit
+```
+
+The script has three functions:
+
+1. `load_counts`
+2. `plot_counts`
+3. `main`
+
+The `load_counts` function splits the lines in the input file using
+`splitlines` and then performs another split using tabs on each line split. The
+`0` index is used because there should only be one line in the count file and
+that corresponds to the counts.
+
+`counts = [line.split('\t') for line in count_file.read().splitlines()][0]`
+
+The `plot_counts` function uses matplotlib to produce the count plots. The
+`subplot()` function creates two sub plots (on a single row). Bar plots are
+produced using the `bar()` function, which takes `x` and `y` values. The other
+matplotlib functions add labels and other aesthetics. Note that this function
+does not have a `return` statement but the plot can still be accessed, somehow.
+
+The `main` function calls the other two functions to show or produce a plot.
+
+### 03b get report
+
+The `03b_get_report.py` script is meant for concatenating a list of count
+output files into a single text file (for convenience). Since the number of
+input files is variable, the author of this script made the argument for output
+file an optional one.
+
+```
+usage: 03b_get_report.py [-h] [--output_file OUTPUT_FILE]
+                         input_files [input_files ...]
+
+positional arguments:
+  input_files           A list of .tsv files containing the peptide counts.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --output_file OUTPUT_FILE
+                        A .tsv output file to write the report to.
+```
+
+However, an output file name is a necessary input (not an optional one) since
+the script will exit if an output file is not provided.
+
+```
+Traceback (most recent call last):
+  File "./03b_get_report.py", line 63, in <module>
+    output_file = kwargs.pop("output_file")
+KeyError: 'output_file'
+```
+
+Therefore the script should make the first positional argument the name of the
+output file and then all other arguments are input count file.
+
+The script is organised into four functions:
+
+1. `load_counts`
+2. `save_report`
+3. `get_report`
+4. `main`
+
+The `load_counts`, `save_report`, and `main` functions are the same as
+previously described functions. The `get_report` function collates all the
+counts into a single list named `count_list`.
+
+The `count_list` is a 2D list and is initiated with the column header.
+
+```python
+count_list = [[
+    "Protein",
+    "Target Amino Acid",
+    "No. of Peptides", 
+    "No. of Peptides w/ Target Amino Acid", 
+    "Total No. of Amino Acids", 
+    "No. of Target Amino Acid"
+]]
+```
+
+Each count file is loaded using `load_counts` and the `count_list` is appended
+with the _file name_ and the counts. The intention of the code is to parse the
+file name to obtain the protein name but since I named the count file with a
+different naming convention, the protein name contains other characters.
+
+```
+Protein	Target Amino Acid	No. of Peptides	No. of Peptides w/ Target Amino Acid	Total No. of Amino Acids	No. of Target Amino Acid
+MYC_count	C	30	9	439	10
+```
+
