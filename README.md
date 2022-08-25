@@ -1,6 +1,6 @@
 # README
 
-Python is a general-purpose programming language [that is very popular](https://madnight.github.io/githut/). I have wanted to learn Python for a long time but have put it off because I could get everything done using Bash, Perl, and R. However, recently I have been learning about deep learning and while I can use R and Keras, it is easier to use Python. I will keep my notes as Jupyter notebooks stored in `notebook`.
+Python is a general-purpose programming language [that is very popular](https://madnight.github.io/githut/). I have wanted to learn Python for a long time but have put it off because I could get everything done using Bash, Perl, and R. However, recently I have been learning about deep learning and while I can use R and Keras, it is easier to use Python. I will keep test scripts in `script` and longer notes as Jupyter notebooks stored in `notebook`.
 
 # The Jupyter Notebook
 
@@ -18,40 +18,67 @@ After installation, run `jupyter notebook` to host an interactive session. See t
 
     docker pull jupyter/tensorflow-notebook:latest
 
-The script `run_docker_tensorflow_notebook.sh` (shown below) will start a Docker container called `tensorflow-notebook` that mounts the current directory on the host machine to `/data/` in the Docker container and listens on port 10000. Run `docker exec tensorflow-notebook jupyter notebook list` after starting the container to obtain the token needed to log into the notebook server.
+The script `run_docker_tensorflow_notebook.sh` (shown below) will start a Docker container called `tensorflow-notebook` that mounts the current directory on the host machine to `/data/` in the Docker container and listens on port 10000. Run `docker exec tensorflow-notebook jupyter server list` after starting the container to obtain the token needed to log into the notebook server.
 
 ```bash
 #!/usr/bin/env bash
 
 set -euo pipefail
 
-version=latest
+# JupyterLab is now the default for all the Jupyter Docker stack images
+# the latest version as of 2022-08-25 is
+# 9c23551dec7e6c93d2363e8a17307d0a8bb847471e2b2fe959dd019daa370178, which
+# keeps crashing when I try to start or open a new notebook, so I am using the
+# older ubuntu-20.04 image
+# version=latest
+version=ubuntu-20.04
 image=jupyter/tensorflow-notebook:${version}
 container_name=tensorflow-notebook
 port=10000
 
-# If you change the notebook username using the following:
-#
-#     -e NB_USER="my-username" \
-#
-# You will not be able to list currently running servers to obtain a token.
-# Therefore just use the username jovyan
-#
-# In addition, you need to run as root (`--user root`)
-# or else you will not be able to edit mounted files
+start_container () {
 
-docker run -d \
-   --rm \
-   -p ${port}:8888 \
-   --name ${container_name} \
-   --user root \
-   -e NB_UID=$(id -u) \
-   -e NB_GID=$(id -g) \
-   -v $(pwd):/home/jovyan/work \
-   ${image}
+   # If you change the notebook username using the following:
+   #
+   #     -e NB_USER="my-username" \
+   #
+   # You will not be able to list currently running servers to obtain a token.
+   # Therefore just use the username jovyan
+   #
+   # In addition, you need to run as root (`--user root`)
+   # or else you will not be able to edit mounted files
 
->&2 echo ${container_name} listening on port ${port}
->&2 echo -e "Run the following to get the token:\ndocker exec ${container_name} jupyter notebook list"
+   docker run -d \
+      --rm \
+      -p ${port}:8888 \
+      --user root \
+      -e NB_UID=$(id -u) \
+      -e NB_GID=$(id -g) \
+      -v $(pwd):/home/jovyan/work \
+      --name ${container_name} \
+      ${image}
+
+   >&2 echo ${container_name} listening on port ${port}
+   >&2 echo -e "Run the following to get the token:\ndocker exec ${container_name} jupyter server list"
+
+}
+
+check_container () {
+
+   docker container inspect ${container_name} > /dev/null 2>&1
+   # $? == 0 if container exists
+   if [[ $? > 0 ]]; then
+      start_container
+   else
+      >&2 echo ${container_name} already exists
+      exit 1
+   fi
+
+}
+
+# the || is necessary for preventing `set -e` immediately exiting
+# if the container already exists
+check_container || true
 
 >&2 echo Done
 exit 0
@@ -65,6 +92,7 @@ In your Jupyter notebook, click on `Help` and then select `Keyboard Shortcuts` t
 
 Below are some shortcuts that I have found useful:
 
+* Place the cursor inside the parenthesis of a function and press shift+tab to bring up the function's documentation
 * The notebook has a command and edit mode; press `escape` to enter command mode and press `enter` to enter edit mode.
 * In command mode, press `m` to change a cell to Markdown and `y` to change a cell to code
 * Control+enter to execute code
@@ -105,6 +133,7 @@ Using Python in R Markdown
 
 # Links
 
+* Difference between [Jupyter Notebook and JupyterLab](https://stackoverflow.com/questions/50982686/what-is-the-difference-between-jupyter-notebook-and-jupyterlab)?
 * Perl to Python [phrasebook](https://wiki.python.org/moin/PerlPhrasebook) for those coming from Perl and wanting to learn Python
 * [Python tutorial by w3schools](https://www.w3schools.com/python/default.asp)
 * [Biopython tutorial](https://biopython.org/DIST/docs/tutorial/Tutorial.html)
