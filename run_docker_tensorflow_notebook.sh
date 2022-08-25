@@ -2,7 +2,13 @@
 
 set -euo pipefail
 
-version=latest
+# JupyterLab is now the default for all the Jupyter Docker stack images
+# the latest version as of 2022-08-25 is
+# 9c23551dec7e6c93d2363e8a17307d0a8bb847471e2b2fe959dd019daa370178, which
+# keeps crashing when I try to start or open a new notebook, so I am using the
+# older ubuntu-20.04 image
+# version=latest
+version=ubuntu-20.04
 image=jupyter/tensorflow-notebook:${version}
 container_name=tensorflow-notebook
 port=10000
@@ -22,11 +28,11 @@ start_container () {
    docker run -d \
       --rm \
       -p ${port}:8888 \
-      --name ${container_name} \
       --user root \
       -e NB_UID=$(id -u) \
       -e NB_GID=$(id -g) \
       -v $(pwd):/home/jovyan/work \
+      --name ${container_name} \
       ${image}
 
    >&2 echo ${container_name} listening on port ${port}
