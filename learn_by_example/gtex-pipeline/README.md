@@ -56,3 +56,9 @@ Test.
 ./collapse_annotation.py gencode.v41.annotation.gtf.gz test.gtf
 ```
 
+Create a small test GTF file.
+
+```bash
+gunzip -c gencode.v41.annotation.gtf.gz | head -982 | gzip > eg.gtf.gz
+```
+
