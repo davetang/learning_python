@@ -1,8 +1,21 @@
+Table of Contents
+=================
+
+* [README](#readme)
+   * [The Jupyter Notebook](#the-jupyter-notebook)
+      * [Jupyter Notebook using Docker](#jupyter-notebook-using-docker)
+      * [Jupyter Notebook shortcuts](#jupyter-notebook-shortcuts)
+   * [Reticulate](#reticulate)
+   * [Useful snippets](#useful-snippets)
+   * [Links](#links)
+
+Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+
 # README
 
 Python is a general-purpose programming language [that is very popular](https://madnight.github.io/githut/). I have wanted to learn Python for a long time but have put it off because I could get everything done using Bash, Perl, and R. However, recently I have been learning about deep learning and while I can use R and Keras, it is easier to use Python. I will keep test scripts in `script` and longer notes as Jupyter notebooks stored in `notebook`.
 
-# The Jupyter Notebook
+## The Jupyter Notebook
 
 The notebook formerly known as the [IPython Notebook](https://ipython.org/notebook.html) has also been on my list of things to learn. It serves as an interactive session for interweaving code and plain text. Just install [Anaconda](https://www.continuum.io/downloads) for your operating system and that will install [Jupyter Notebook](https://jupyter.readthedocs.io/en/latest/install.html).
 
@@ -12,7 +25,7 @@ The notebook formerly known as the [IPython Notebook](https://ipython.org/notebo
 
 After installation, run `jupyter notebook` to host an interactive session. See the [Comprehensive Beginner’s Guide to Jupyter Notebooks for Data Science & Machine Learning](https://www.analyticsvidhya.com/blog/2018/05/starters-guide-jupyter-notebook/) for a nice introduction to Jupyter notebooks.
 
-## Jupyter Notebook using Docker
+### Jupyter Notebook using Docker
 
 [Jupyter Docker Stacks](https://jupyter-docker-stacks.readthedocs.io/en/latest/index.html) are a set of ready-to-run Docker images containing Jupyter applications and interactive computing tools. Use [jupyter/tensorflow-notebook](https://jupyter-docker-stacks.readthedocs.io/en/latest/using/selecting.html#jupyter-tensorflow-notebook), which includes popular packages from the scientific Python ecosystem and the `tensorflow` and `keras` machine learning libraries.
 
@@ -86,7 +99,7 @@ exit 0
 
 See [Common Features](https://jupyter-docker-stacks.readthedocs.io/en/latest/using/common.html) for configurating the Jupyter Server with Docker.
 
-## Jupyter Notebook shortcuts
+### Jupyter Notebook shortcuts
 
 In your Jupyter notebook, click on `Help` and then select `Keyboard Shortcuts` to see a comprehensive list of shortcuts.
 
@@ -101,7 +114,7 @@ Below are some shortcuts that I have found useful:
 * If you want to split a cell, enter edit mode in the cell and move the cursor to where you want the split, then press control+shift+- (hyphen)
 * To merge a cell, select the cells in command mode (shift+ up/down arrows), and then press shift+m
 
-# Reticulate
+## Reticulate
 
 The [reticulate package](https://github.com/rstudio/reticulate) provides a comprehensive set of tools for interoperability between Python and R. Reticulate embeds a Python session within your R session, enabling seamless, high-performance interoperability.
 
@@ -131,7 +144,41 @@ Using Python in R Markdown
     print(sys.version)
     ```
 
-# Links
+## Useful snippets
+
+Check if file exists and prompt before overwriting.
+
+```python
+import sys
+import os.path
+
+somefile = "blah.txt"
+
+if os.path.isfile(somefile):
+    print(f"Specified BAM output {somefile} already exists", file = sys.stderr)
+    what_to_do = input("Continue y/N? ")
+    if what_to_do == "y" or what_to_do == "Y":
+        print("Continuing", file = sys.stderr)
+    else:
+        sys.exit()
+```
+
+Get the directory of a script.
+
+```python
+import os.path
+print("dirname of script: {}".format(os.path.dirname(__file__)) )
+```
+
+Get environment variables.
+
+```python
+import os
+user = os.environ['USER']
+home = os.environ['HOME']
+```
+
+## Links
 
 * Difference between [Jupyter Notebook and JupyterLab](https://stackoverflow.com/questions/50982686/what-is-the-difference-between-jupyter-notebook-and-jupyterlab)?
 * Perl to Python [phrasebook](https://wiki.python.org/moin/PerlPhrasebook) for those coming from Perl and wanting to learn Python
