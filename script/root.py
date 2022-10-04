@@ -10,7 +10,7 @@ def f(c, x):
     return x**2 - c
 
 def f_prime(x):
-	return 2*x
+    return 2*x
 
 def newtons_method(n, verbose = 0, f = f, f_prime = f_prime, tolerance = 0.00000001,
     max_iterations = 1000):
