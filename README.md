@@ -6,6 +6,7 @@ Table of Contents
       * [Jupyter Notebook using Docker](#jupyter-notebook-using-docker)
       * [Jupyter Notebook shortcuts](#jupyter-notebook-shortcuts)
    * [Reticulate](#reticulate)
+   * [Tools for finding coding errors](#tools-for-finding-coding-errors)
    * [Useful snippets](#useful-snippets)
    * [Links](#links)
 
@@ -144,6 +145,28 @@ Using Python in R Markdown
     print(sys.version)
     ```
 
+## Tools for finding coding errors
+
+Linters are tools that check for program style and errors beyond bad syntax.
+Two popular linters are [pylint](https://pylint.pycqa.org/en/latest/) and
+[flake8](https://flake8.pycqa.org/en/latest/).
+
+```bash
+python3 -m pip install pylint
+pylint script/root.py
+
+python3 -m pip install flake8
+flake8 script/root.py
+```
+
+The [mypy](https://github.com/python/mypy) tool is a static type checker and is
+used to find mis-used types such as dividing a string by a number.
+
+```bash
+python3 -m pip install -U mypy
+mypy script/root.py
+```
+
 ## Useful snippets
 
 Check if file exists and prompt before overwriting.
@@ -185,4 +208,5 @@ home = os.environ['HOME']
 * [Python tutorial by w3schools](https://www.w3schools.com/python/default.asp)
 * [Biopython tutorial](https://biopython.org/DIST/docs/tutorial/Tutorial.html)
 * [Installing Python Packages from a Jupyter Notebook](https://jakevdp.github.io/blog/2017/12/05/installing-python-packages-from-jupyter/)
+
 
