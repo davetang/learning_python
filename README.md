@@ -201,6 +201,19 @@ user = os.environ['USER']
 home = os.environ['HOME']
 ```
 
+Print all (except internal use and magical) attributes of an instance.
+
+```python
+import re
+import pprint
+pp = pprint.PrettyPrinter(indent = 4)
+
+for att in dir(elispot):
+    if not re.match("^_", att):
+        print(f"{att} attribute")
+        pp.pprint(getattr(elispot, att))
+```
+
 ## Links
 
 * Difference between [Jupyter Notebook and JupyterLab](https://stackoverflow.com/questions/50982686/what-is-the-difference-between-jupyter-notebook-and-jupyterlab)?
