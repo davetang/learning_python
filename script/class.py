@@ -66,6 +66,8 @@ class foobar(object):
 # instance of foobar and assigns this object to the local variable my_obj.
 my_obj = foobar("wind")
 
+print(type(my_obj))
+
 # add a new data attribute not defined in the class
 my_obj.counter = 1
 while my_obj.counter < 10:
@@ -167,4 +169,18 @@ class Me(object):
 me = Me()
 me.spam()
 me.mine()
+
+#
+# __init__ is executed last!
+#
+
+class Spam:
+    print("Before __init__")
+    def __init__(self):
+        print("Inside __init__")
+    def ham(self):
+        print("In ham method")
+    print("After __init__")
+
+Spam()
 
