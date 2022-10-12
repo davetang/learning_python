@@ -197,6 +197,13 @@ class SubSpam:
     x = 1985
     def __init__(self):
         self.y = 2020
+        # variables declared in the class are accessed by prefixing with self
+        # NameError: name 'x' is not defined
+        # print(x)
+        print(self.x)
+        # variables declared in the method, can be accessed as is
+        z = 2022
+        print(z)
 
 ss = SubSpam()
 print(ss.x)
