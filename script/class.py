@@ -184,3 +184,20 @@ class Spam:
 
 Spam()
 
+#
+# if __init__ is overriden in a subclass, is super __init__ called?
+# The answer is no, which I had suspected but wanted to check.
+#
+
+class BaseSpam:
+    def __init__(self):
+        self.x = 1984
+
+class SubSpam:
+    x = 1985
+    def __init__(self):
+        self.y = 2020
+
+ss = SubSpam()
+print(ss.x)
+print(ss.y)
