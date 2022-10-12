@@ -193,7 +193,7 @@ class BaseSpam:
     def __init__(self):
         self.x = 1984
 
-class SubSpam:
+class SubSpam(BaseSpam):
     x = 1985
     def __init__(self):
         self.y = 2020
