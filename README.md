@@ -216,10 +216,11 @@ for att in dir(elispot):
 
 ## Links
 
+* Blog post on [using underscores in Python](https://www.hacksoft.io/blog/underscores-dunders-and-everything-nice)
+* [Article explaining](https://note.nkmk.me/en/python-if-name-main/) `if __name__ == '__main__'`
 * Difference between [Jupyter Notebook and JupyterLab](https://stackoverflow.com/questions/50982686/what-is-the-difference-between-jupyter-notebook-and-jupyterlab)?
 * Perl to Python [phrasebook](https://wiki.python.org/moin/PerlPhrasebook) for those coming from Perl and wanting to learn Python
 * [Python tutorial by w3schools](https://www.w3schools.com/python/default.asp)
 * [Biopython tutorial](https://biopython.org/DIST/docs/tutorial/Tutorial.html)
 * [Installing Python Packages from a Jupyter Notebook](https://jakevdp.github.io/blog/2017/12/05/installing-python-packages-from-jupyter/)
-
 
