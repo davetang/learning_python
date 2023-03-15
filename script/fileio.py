@@ -15,24 +15,27 @@ text_block = """\
 ---- start heredoc ----
 multiline that doesn't need escaping
 another line
-    but spaces    at the start are removed when writing out
-      output redirection preserves the spacing
+    and spaces    are preserved
+      more spaces
 use .format() for variable interpolation
 output file is: {}
 ---- end heredoc ----""".format(outfile)
 
-print(text_block)
-
 # print or write to file
 with open(outfile, 'a') as f:
     print(text_block, file = f)
-    f.write(text_block)
+    f.write(f"{text_block}\n")
 
-print(f"\n=== Reading contents of {outfile} ===")
+text = '   This is a string with leading spaces.'
+with open(outfile, 'a') as f:
+    f.write(text)
+
+print(f"=== Reading contents of {outfile} ===")
 with open(outfile, 'r', encoding='utf8') as f:
     # a file object is an iterable object
     for line in f:
-        print(line.strip())
+        # remove trailing whitespace
+        print(line.rstrip())
 print(f"=== Finished reading contents of {outfile} ===")
 
 os.unlink(outfile)
