@@ -1,6 +1,6 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
-# working with dictionaries
+# Working with dictionaries with the items(), keys(), and values() methods
 #
 
 # Japanese prefecture codes
@@ -38,4 +38,16 @@ if kyoto_code:
     print("Kyoto is abbreviated as %d" % kyoto_code)
 else:
     print("Kyoto is not in the codes dictionary")
+print()
 
+# storing keys and values as lists
+print("The list of cities:")
+cities = list(codes.keys())
+print(cities)
+print("The list of prefecture codes:")
+pcodes = list(codes.values())
+print(pcodes)
+
+# keys are iterable
+for city in codes.keys():
+    print(city)
