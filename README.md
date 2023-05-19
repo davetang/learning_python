@@ -102,18 +102,26 @@ See [Common Features](https://jupyter-docker-stacks.readthedocs.io/en/latest/usi
 
 ### Jupyter Notebook shortcuts
 
-In your Jupyter notebook, click on `Help` and then select `Keyboard Shortcuts` to see a comprehensive list of shortcuts.
-
 Below are some shortcuts that I have found useful:
 
-* Place the cursor inside the parenthesis of a function and press shift+tab to bring up the function's documentation
-* The notebook has a command and edit mode; press `escape` to enter command mode and press `enter` to enter edit mode.
-* In command mode, press `m` to change a cell to Markdown and `y` to change a cell to code
+* Place the cursor inside the parenthesis of a function and press shift+tab to
+  bring up the function's documentation
+* The notebook has a command and edit mode; press `escape` to enter command
+  mode and press `enter` to enter edit mode.
+* In command mode, press `m` to change a cell to Markdown and `y` to change a
+  cell to code
 * Control+enter to execute code
 * `a` and `b` to insert a cell above and below, respectively
 * Vim shortcuts like `dd` and `hjkl` work in command mode
-* If you want to split a cell, enter edit mode in the cell and move the cursor to where you want the split, then press control+shift+- (hyphen)
-* To merge a cell, select the cells in command mode (shift+ up/down arrows), and then press shift+m
+* Use `x`, `c`, `v` to cut, copy, and paste cells
+* If you want to split a cell, enter edit mode in the cell and move the cursor
+  to where you want the split, then press control+shift+- (hyphen)
+* To merge a cell, select the cells in command mode (shift+ up/down arrows),
+  and then press shift+m
+
+See [Common Jupyter Lab Keyboard
+Shortcuts](https://gist.github.com/discdiver/9e00618756d120a8c9fa344ac1c375ac)
+for more.
 
 ## Reticulate
 
