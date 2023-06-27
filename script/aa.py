@@ -10,6 +10,13 @@ my_list = {
     "class" : ["Aliphatic", "Fixed cation", "Amide", "Anion", "Thiol", "Amide", "Anion", "Aliphatic", "Aromatic cation", "Aliphatic", "Aliphatic", "Cation", "Thioether", "Aromatic", "Cyclic", "Hydroxylic", "Hydroxylic", "Aromatic", "Aromatic", "Aliphatic"]
 }
 
+def print_table():
+    header = list(my_list.keys())
+    print("\t".join(header))
+    for i in range(len(my_list[header[0]])):
+        line = [my_list.get(key)[i] for key in header]
+        print("\t".join(line))
+
 def ask_question(n):
     question_type = random.choice((list(my_list)))
     for_type = random.choice((list(my_list)[:-1]))
@@ -28,6 +35,8 @@ def ask_question(n):
             print(answer)
         elif attempt == "hint" or attempt == "help":
             print(set(my_list[question_type]))
+        elif attempt == "table":
+            print_table()
         else:
             print("Wrong!")
         attempt = input(question).lower()
