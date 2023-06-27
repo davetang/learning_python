@@ -4,7 +4,7 @@ import random
 import signal
 
 my_list = {
-    "name" : ["Alanine", "Arginine", "Asparagine", "Aspartate", "Cysteine", "Glutamine", "Glutamate", "Glycine", "Histidine", "Isoleucine", "Leucine", "Lysine", "Methionine", "Phenylalanine", "Serine", "Proline", "Threonine", "Tryptophan", "Tyrosine", "Valine"],
+    "name" : ["Alanine", "Arginine", "Asparagine", "Aspartate", "Cysteine", "Glutamine", "Glutamate", "Glycine", "Histidine", "Isoleucine", "Leucine", "Lysine", "Methionine", "Phenylalanine", "Proline", "Serine", "Threonine", "Tryptophan", "Tyrosine", "Valine"],
     "three letter symbol" : ["Ala", "Arg", "Asn", "Asp", "Cys", "Gln", "Glu", "Gly", "His", "Ile", "Leu", "Lys", "Met", "Phe", "Pro", "Ser", "Thr", "Trp", "Tyr", "Val"],
     "one letter symbol" : ["A", "R", "N", "D", "C", "Q", "E", "G", "H", "I", "L", "K", "M", "F", "P", "S", "T", "W", "Y", "V"],
     "class" : ["Aliphatic", "Fixed cation", "Amide", "Anion", "Thiol", "Amide", "Anion", "Aliphatic", "Aromatic cation", "Aliphatic", "Aliphatic", "Cation", "Thioether", "Aromatic", "Cyclic", "Hydroxylic", "Hydroxylic", "Aromatic", "Aromatic", "Aliphatic"]
