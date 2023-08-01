@@ -27,11 +27,26 @@ names(knitr::knit_engines$get())
 
 The [reticulate package](https://github.com/rstudio/reticulate) provides an R interface to Python.
 
-```{r install_reticulate}
-if (!require("reticulate")){
+```{r install}
+if(!require("reticulate")){
   install.packages("reticulate")
+  require(reticulate)
 }
-library(reticulate)
+```
+
+Use Miniconda3.
+
+```{r install_miniconda}
+if (!dir.exists(miniconda_path())){
+  reticulate::install_miniconda()
+}
+use_python(paste0(miniconda_path(), '/bin/python3'))
+```
+
+Print out config.
+
+```{r py_config}
+py_config()
 ```
 
 Finally to run this R Markdown document, use the [davetang/rstudio_python](https://hub.docker.com/repository/docker/davetang/rstudio_python) Docker image.
@@ -44,15 +59,8 @@ paste(R.version$major, R.version$minor, sep=".")
 
 Perl version used.
 
-```{perl_version}
+```{perl}
 print("$^X\t$^V\n")
-```
-
-Python version used.
-
-```{python_version}
-import sys
-print(sys.version)
 ```
 
 # Hello world
@@ -484,21 +492,26 @@ bubba <- NorthAmerican()
 bubba
 ```
 
-In <a href="https://docs.python.org/2/tutorial/classes.html">Python</a>, the simplest form of class definition looks like this:
+A `Shape` superclass and a `Rectangle` class inheriting from `Shape`.
+`__init__()` is the constructor.
 
-```
-class ClassName:
-    <statement-1>
-    .
-    .
-    .
-    <statement-N>
+```{python}
+class Shape:
+    """A simple shape class"""
+    def __init__(self, length, width):
+        self.colour = 'black'
+        self.length = length
+        self.width = width
+        
+class Rectangle(Shape):
+    def area(self):
+        return(self.length * self.width)
+        
+small_rectangle = Rectangle(2, 3)
+small_rectangle.area()
 
-class MyClass:
-    """A simple example class"""
-    i = 12345
-    def f(self):
-        return 'hello world'
+big_rectangle = Rectangle(12, 8)
+big_rectangle.area()
 ```
 
 In Perl most objects are hashes and a Perl class is defined in a Perl module file (*.pm) with a package declaration. Here's an <a href="http://perltricks.com/article/25/2013/5/20/Old-School-Object-Oriented-Perl">example</a>:
@@ -536,8 +549,3 @@ print join("\t", $shape->{color}, $shape->{length}, $shape->{width}), "\n";
 
 exit(0);
 ```
-
-
-
-
-
