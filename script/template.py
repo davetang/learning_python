@@ -12,6 +12,19 @@ import re
 print(f"Script using {sys.executable}", file = sys.stderr)
 script_dir = dirname(__file__)
 
+# simple usage; sys.argv[0] is this script
+if len(sys.argv) < 1:
+    print(f"Usage: {sys.argv[0]} <arg1> <arg2>")
+    exit(1)
+
+# File system
+
+my_dir = '.'
+for f in os.listdir(my_dir):
+    if bool(re.search(".py$", f)):
+        pl = f.replace("py", "pl")
+        print(pl)
+
 # File IO
 
 ## By far the most common task: read (CSV) file, perform some task, write out
