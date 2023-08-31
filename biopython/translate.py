@@ -5,6 +5,7 @@
 #
 
 import argparse
+import re
 import sys
 import os.path
 from Bio import SeqIO
@@ -57,15 +58,23 @@ parser.add_argument(
 
 args = parser.parse_args()
 
-print(args.stop)
+def only_nuc(seq):
+    if re.match("^[ACGT]+$", seq):
+        return(True)
+    else:
+        return(False)
 
 if os.path.exists(args.fasta):
     for seq in SeqIO.parse(args.fasta, "fasta"):
+        if not only_nuc(str(seq.seq)):
+            if args.verbose:
+                print(f"Skipping {seq.description} due to invalid nucleotide", file = sys.stderr)
+            continue
         if len(seq) % 3 and args.skip:
             if args.verbose:
                 print(f"Skipping {seq.description} due to partial codon", file = sys.stderr)
-        else:
-            print(f">{seq.description}\n{seq.translate(to_stop=args.stop).seq}")
+            continue
+        print(f">{seq.description}\n{seq.translate(to_stop=args.stop).seq}")
 else:
     print(f"{args.fasta} does not exist")
     quit(1)
