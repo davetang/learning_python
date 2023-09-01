@@ -35,6 +35,11 @@ parser.add_argument(
         action = "store_true"
 )
 parser.add_argument(
+        "-f",
+        "--filter",
+        help = "Skip sequences that match the supplied regex"
+)
+parser.add_argument(
         "-s",
         "--skip",
         help = "skip sequences with partial codons",
@@ -58,8 +63,9 @@ parser.add_argument(
 
 args = parser.parse_args()
 
+
 def only_nuc(seq):
-    if re.match("^[ACGT]+$", seq):
+    if re.search("^[ACGT]+$", seq):
         return(True)
     else:
         return(False)
@@ -73,6 +79,10 @@ if os.path.exists(args.fasta):
         if len(seq) % 3 and args.skip:
             if args.verbose:
                 print(f"Skipping {seq.description} due to partial codon", file = sys.stderr)
+            continue
+        if args.filter and re.search(args.filter, seq.description):
+            if args.verbose:
+                print(f"Skipping {seq.description} due to matching filter '{args.filter}'", file = sys.stderr)
             continue
         print(f">{seq.description}\n{seq.translate(to_stop=args.stop).seq}")
 else:
