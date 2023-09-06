@@ -24,3 +24,7 @@ Deactivate once you have finished.
 ```console
 deactivate
 ```
+
+## TODO
+
+- [ ] Consolidate scripts
