@@ -5,6 +5,13 @@
 
 import os
 
+# check if directory exists
+my_dir = 'cake'
+if os.path.isdir(my_dir):
+    print(f"{my_dir} exists")
+else:
+    print(f"{my_dir} does not exist")
+
 # recursive listing of files
 # os.walk() returns:
 # 1. path to the directory
