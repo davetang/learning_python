@@ -54,6 +54,24 @@ else
    >&2 echo ls_orchid.gbk already exists
 fi
 
+# 10X pbmc3k
+if [[ ! -d pbmc3k ]]; then
+   mkdir pbmc3k && cd pbmc3k
+   >&2 echo Downloading pbmc3k_filtered_gene_bc_matrices.tar.gz
+   wget --quiet http://cf.10xgenomics.com/samples/cell-exp/1.1.0/pbmc3k/pbmc3k_filtered_gene_bc_matrices.tar.gz
+   tar -xzf pbmc3k_filtered_gene_bc_matrices.tar.gz
+   rm pbmc3k_filtered_gene_bc_matrices.tar.gz
+else
+   >&2 echo pbmc3k
+fi
+
+# CellTypist demo files
+if [[ ! -e demo_2000_cells.h5ad ]]; then
+   >&2 echo Downloading demo_2000_cells.h5ad
+   wget --quiet https://celltypist.cog.sanger.ac.uk/Notebook_demo_data/demo_2000_cells.h5ad
+else
+   >&2 echo demo_2000_cells.h5ad already exists
+fi
+
 >&2 echo Done
 exit 0
-
