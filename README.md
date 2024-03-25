@@ -2,6 +2,7 @@ Table of Contents
 =================
 
 * [README](#readme)
+   * [pip](#pip)
    * [The Jupyter Notebook](#the-jupyter-notebook)
       * [Jupyter Notebook using Docker](#jupyter-notebook-using-docker)
       * [Jupyter Notebook shortcuts](#jupyter-notebook-shortcuts)
@@ -15,6 +16,28 @@ Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 # README
 
 Python is a general-purpose programming language [that is very popular](https://madnight.github.io/githut/). I have wanted to learn Python for a long time but have put it off because I could get everything done using Bash, Perl, and R. However, recently I have been learning about deep learning and while I can use R and Keras, it is easier to use Python. I will keep test scripts in `script` and longer notes as Jupyter notebooks stored in `notebook`.
+
+## pip
+
+[pip](https://pypi.org/project/pip/) is the package installer for Python. You can use `pip` to install packages from the [Python Package Index](https://pypi.org/) (PyPI) and other indexes. The Python Package Index is a repository of software for the Python programming language and `pip` is the recommended tool for installing Python packages.
+
+The [cookiecutter installation instructions](https://cookiecutter.readthedocs.io/en/stable/installation.html) shows the following command:
+
+```console
+python3 -m pip install --user cookiecutter
+```
+
+The documentation for `--user` from `pip install --help` is as follows:
+
+```
+  --user                      Install to the Python user install directory for
+                              your platform. Typically ~/.local/, or
+                              %APPDATA%\Python on Windows. (See the Python
+                              documentation for site.USER_BASE for full
+                              details.)
+```
+
+This is relevant for a system-wide installation of `pip`, where `pip` will install to `/usr/local/lib/`. Check which `pip` is used using `which pip`.
 
 ## The Jupyter Notebook
 
