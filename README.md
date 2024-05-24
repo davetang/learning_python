@@ -1,17 +1,17 @@
-Table of Contents
-=================
+## Table of Contents
 
-* [README](#readme)
-   * [pip](#pip)
-   * [The Jupyter Notebook](#the-jupyter-notebook)
-      * [Jupyter Notebook using Docker](#jupyter-notebook-using-docker)
-      * [Jupyter Notebook shortcuts](#jupyter-notebook-shortcuts)
-   * [Reticulate](#reticulate)
-   * [Tools for finding coding errors](#tools-for-finding-coding-errors)
-   * [Useful snippets](#useful-snippets)
-   * [Links](#links)
-
-Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+- [README](#readme)
+  - [pip](#pip)
+    - [Installing specific versions](#installing-specific-versions)
+    - [Searching PyPi](#searching-pypi)
+    - [Quickly check if module is installed](#quickly-check-if-module-is-installed)
+  - [The Jupyter Notebook](#the-jupyter-notebook)
+    - [Jupyter Notebook using Docker](#jupyter-notebook-using-docker)
+    - [Jupyter Notebook shortcuts](#jupyter-notebook-shortcuts)
+  - [Reticulate](#reticulate)
+  - [Tools for finding coding errors](#tools-for-finding-coding-errors)
+  - [Useful snippets](#useful-snippets)
+  - [Links](#links)
 
 # README
 
@@ -38,6 +38,48 @@ The documentation for `--user` from `pip install --help` is as follows:
 ```
 
 This is relevant for a system-wide installation of `pip`, where `pip` will install to `/usr/local/lib/`. Check which `pip` is used using `which pip`.
+
+In addition it is [recommended](https://snarky.ca/why-you-should-use-python-m-pip/) that `python -m pip` be used over `pip` because it gives better control over which Python interpreter is used.
+
+### Installing specific versions
+
+```console
+pip install numpy==1.26.4
+```
+
+### Searching PyPi
+
+You could use `pip search` before but this has been deprecated and it is recommended that a web browser be used :(
+
+```console
+pip search some_package
+```
+```
+ERROR: XMLRPC request failed [code: -32500]
+RuntimeError: PyPI no longer supports 'pip search' (or XML-RPC search). Please use https://pypi.org/search (via a browser) instead. See https://warehouse.pypa.io/api-reference/xml-rpc.html#deprecated-methods for more information.
+```
+
+### Quickly check if module is installed
+
+Pass program on command line.
+
+```console
+python -c 'print("Hi")'
+```
+```
+Hi
+```
+
+Try to import.
+
+```console
+python -c 'import does_not_exist'
+```
+```
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+ModuleNotFoundError: No module named 'does_not_exist'
+```
 
 ## The Jupyter Notebook
 
