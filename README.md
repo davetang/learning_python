@@ -266,6 +266,16 @@ for att in dir(elispot):
         pp.pprint(getattr(elispot, att))
 ```
 
+Pipe to `python`!
+
+```console
+(printf 'print("Hello")\n' ; printf 'print("World")') | python
+```
+```
+Hello
+World
+```
+
 ## Links
 
 * Blog post on [using underscores in Python](https://www.hacksoft.io/blog/underscores-dunders-and-everything-nice)
