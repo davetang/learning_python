@@ -75,3 +75,41 @@ s = r'\\[ACGT]'
 # to escape with the r prefix?
 print(re.search(r'\\\\\[ACGT\]', s).group())
 print(re.search(r'\\{2}\[ACGT\]', s).group())
+
+# Positive lookahead
+# match "apple" that is followed by "pie":
+text = "apple pie, apple tart, apple pied"
+pattern = r"apple(?= pie)"
+
+matches = re.findall(pattern, text)
+print(matches)
+
+# Negative lookahead
+# match "apple" that is not followed by "pie":
+text = "apple pie, apple tart, apple cider"
+pattern = r"apple(?! pie)"
+
+matches = re.findall(pattern, text)
+print(matches)
+
+# Positive lookbehind
+# match "cake" only when it is preceded by "chocolate":
+text = "chocolate cake, vanilla cake, mud cake"
+pattern = r"(?<=chocolate )cake"
+
+matches = re.findall(pattern, text)
+print(matches)
+
+# Negative lookbehind
+# match "cake" that is not preceded by "chocolate":
+pattern = r"(?<!chocolate )cake"
+
+matches = re.findall(pattern, text)
+print(matches)
+
+# match a word that is preceded by "Mr." and followed by "Jr."
+text = "Mr. Smith Jr., Dr. Jones Jr., Dr. Allen, Mr. Bob Sr."
+pattern = r"(?<=Mr\. )\w+(?= Jr\.)"
+
+matches = re.findall(pattern, text)
+print(matches)
