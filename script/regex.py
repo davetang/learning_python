@@ -136,3 +136,23 @@ pattern = r"(?<=Mr\. )\w+(?= Jr\.)"
 
 matches = re.findall(pattern, text)
 print(matches)
+
+print("\nCompiling a regex")
+#
+# It is not necessary to compile a pattern beforehand; `re.match()`, `re.search()`, and `re.findall()` will automatically compile the pattern internally.
+#
+# However, compiling the pattern using re.compile() offers some advantages such as efficiency and reuse.
+
+# compile pattern
+pattern = re.compile(r'\d+')
+
+# reuse pattern
+print(pattern.search('abc123'))
+
+# call other methods on the same pattern
+print(pattern.findall('abc123xyz456'))
+
+# more efficient
+strings = ['alskdjf', 'alksdj1242', 'l34j1lkj24jlk2', 'akls2111']
+for string in strings:
+    print(f'Searching string "{string}" with pattern "{pattern.pattern}": {pattern.findall(string)}')
