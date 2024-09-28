@@ -19,9 +19,14 @@ dna = "ATGACAGATAGACAGAATTCAGATAGACGATAAGCTTAGTA"
 n = re.match(r'GAATTC', dna)
 print(n)
 
+# returns a Match object
+n = re.match(r'ATGACA', dna)
+print(n)
+
 m = re.search('GAATTC', dna)
 print(m)
 
+# Match methods
 print(f"start of match (zero-based): {m.start()}")
 print(f"end of match: {m.end()}")
 print(f"span of match: {m.span()}")
@@ -29,7 +34,7 @@ print(f"match: {m.group()}")
 
 # groups
 g = re.search('(GAATTC)[ACGT]+(AAGCTT)', dna)
-print(g)
+print(f"group match: {g}")
 
 print(f"first group (entire match): {g.group(0)}")
 print(f"second group: {g.group(1)}")
@@ -42,25 +47,27 @@ print(f"HindIII: {g.group('HindIII')}")
 
 # https://stackoverflow.com/questions/2241600/python-regex-r-prefix
 #
-# The r prefix indicates that the following is a raw string. When an "r" or "R"
-# prefix is present, a character following a backslash is included in the
-# string without change, and all backslashes are left in the string. For
-# example, the string literal r"\n" consists of two characters: a backslash and
-# a lowercase "n".
+# The r prefix indicates that the following is a raw string.
+#
+# When an "r" or "R" prefix is present, a character following a backslash is included in the string without change, and all backslashes are left in the string.
+#
+# For example, the string literal r"\n" consists of two characters: a backslash and a lowercase "n".
+
 print("test\n")
-print(r"test\n")
-print(r"test\\n")
+print(r"raw: test\n")
+print(r"raw: test\\n")
 
 s = r'\\[ACGT]'
-print(f"\nString to match: {s}\n")
+print(f"\nSubject string used for matching (raw): {s}")
 
 regex = '\\[ACGT]'
-print(f"Regex: {regex}")
+print(f"Regex (not raw): {regex}")
 m = re.search(regex, s)
-print(f"Match\n{m}\n{m.group()}\n")
+print(f"Match object:\n{m}\n{m.group()}\n")
 
-print(f"Regex: {s}")
+print(f"Regex (raw): {s}")
 mr = re.search(s, s)
+# None
 print(mr)
 
 # https://stackoverflow.com/questions/13902132/regex-deal-with-double-backslash
@@ -70,12 +77,13 @@ print(list('\\['))
 print(list(r'\['))
 print(list(r'\\\\\['))
 
+print("\nTesting the r prefix")
 s = r'\\[ACGT]'
-# this is how I can get a match but it is confusing to me because I still need
-# to escape with the r prefix?
+# this is how I can get a match but it is confusing to me because I still need to escape when using the r prefix?
 print(re.search(r'\\\\\[ACGT\]', s).group())
 print(re.search(r'\\{2}\[ACGT\]', s).group())
 
+print("\nTesting lookahead and lookbehind")
 # Positive lookahead
 # match "apple" that is followed by "pie":
 text = "apple pie, apple tart, apple pied"
