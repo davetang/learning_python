@@ -9,6 +9,21 @@
 # and `search()` checks for a match anywhere. Use the methods provided by the
 # match object to extract the matched string and its position.
 #
+# re.match(pattern, string)
+#
+# Match pattern from the beginning of the string and returns a match object if the pattern matches at the start of the string, otherwise None.
+# Used to ensure that the pattern occurs only at the beginning of the string.
+#
+# re.search(pattern, string)
+#
+# Searches for the first occurrence of the pattern anywhere in the string.
+# Returns a match object for the first occurrence of the pattern, or None if the pattern is not found.
+# Used to find the first occurrence of the pattern anywhere in the string.
+#
+# re.findall(pattern, string)
+#
+# Finds all occurrences of the pattern in the string and returns them as a list or if no matches are found, an empty list is returned.
+# Used when you want to find all occurrences of the pattern, not just the first one.
 
 import re
 #      01234567890123456789012345678901234567890
