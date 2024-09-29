@@ -2,6 +2,8 @@
 #
 # Regular expressions in Python
 #
+import re
+#
 # https://note.nkmk.me/en/python-re-match-object-span-group/
 #
 # In Python's re module, `match()` and `search()` return match objects when a
@@ -25,7 +27,52 @@
 # Finds all occurrences of the pattern in the string and returns them as a list or if no matches are found, an empty list is returned.
 # Used when you want to find all occurrences of the pattern, not just the first one.
 
-import re
+# use the re.VERBOSE flag to allow comments and whitespace in your regex for better readability.
+# also use raw strings (r'') to avoid problems with Python escaping special characters like \.
+
+pattern = re.compile(r"""
+    \d+    # Match one or more digits
+    [a-z]* # Match zero or more lowercase letters
+""", re.VERBOSE)
+
+result = pattern.search('123abc')
+
+# use re.sub() to perform text replacements.
+text = "Setting: {{something_to_change}}"
+result = re.sub(r'{{something_to_change}}', 'new_setting', text)
+print(result)
+
+# re.findall() returns a list of all matches, while re.finditer() returns an iterator yielding match objects. The latter is more memory efficient, especially for large texts.
+pattern = re.compile(r'\d+')
+# Using finditer (returns iterator of match objects)
+matches = pattern.finditer('123 abc 456 def 789')
+print(type(matches))
+for match in matches:
+    print(match.group())
+
+# Using Flags for Case-Insensitive and Multiline Matching
+# use flags like re.IGNORECASE (or re.I) for case-insensitive matching and re.MULTILINE (or re.M) to allow ^ and $ to match the start and end of each line in multiline strings.
+text = "First Line\nsecond line"
+
+# Case-insensitive match
+pattern = re.compile(r'second', re.IGNORECASE)
+print(pattern.search(text))
+
+# Multiline mode
+pattern = re.compile(r'^second', re.MULTILINE)
+print(pattern.search(text))
+
+# Regular expressions are greedy by default, meaning they match as much text as possible. To make a pattern non-greedy, use the ? modifier after the quantifier (*, +, etc.).
+text = "<html>content</html>"
+
+# Greedy match (matches the whole string)
+pattern = re.compile(r'<.*>')
+print(f"Greedy: {pattern.search(text).group()}")
+
+# Non-greedy match
+pattern = re.compile(r'<.*?>')
+print(f"Non-greedy: {pattern.search(text).group()}")
+
 #      01234567890123456789012345678901234567890
 #                    ||||||           ||||||
 dna = "ATGACAGATAGACAGAATTCAGATAGACGATAAGCTTAGTA"
@@ -42,12 +89,20 @@ m = re.search('GAATTC', dna)
 print(m)
 
 # Match methods
+# group(): Returns the matched string.
+# start(), end(): Returns the start and end positions of the match.
+# span(): Returns a tuple with the start and end positions.
 print(f"start of match (zero-based): {m.start()}")
 print(f"end of match: {m.end()}")
 print(f"span of match: {m.span()}")
 print(f"match: {m.group()}")
 
 # groups
+# Use Non-Capturing Groups (?:...) for Grouping Without Capturing
+pattern = re.compile(r'(?:http|https)://')
+result = pattern.search('https://davetang.org')
+print(f"Non-capturing group: {result.group(0)}")
+
 g = re.search('(GAATTC)[ACGT]+(AAGCTT)', dna)
 print(f"group match: {g}")
 
@@ -55,7 +110,8 @@ print(f"first group (entire match): {g.group(0)}")
 print(f"second group: {g.group(1)}")
 print(f"third group: {g.group(2)}")
 
-# named groups
+# Use Named Groups for Readability
+# Instead of referring to captured groups by index (\1, \2, etc.), you can name your groups with (?P<name>...) and access them by name.
 g = re.search('(?P<EcoRI>GAATTC)[ACGT]+(?P<HindIII>AAGCTT)', dna)
 print(f"EcoRI: {g.group('EcoRI')}")
 print(f"HindIII: {g.group('HindIII')}")
@@ -152,7 +208,7 @@ print(pattern.search('abc123'))
 # call other methods on the same pattern
 print(pattern.findall('abc123xyz456'))
 
-# more efficient
+# more efficient when pattern has already been compiled
 strings = ['alskdjf', 'alksdj1242', 'l34j1lkj24jlk2', 'akls2111']
 for string in strings:
     print(f'Searching string "{string}" with pattern "{pattern.pattern}": {pattern.findall(string)}')
