@@ -1,1 +1,10 @@
- *.html linguist-detectable=false
+# Tell GitHub Linguist to ignore certain files/languages.
+
+# exclude HTML from a repo's stats:
+*.html linguist-detectable=false
+
+# exclude Jupyter Notebooks from language stats
+*.ipynb linguist-detectable=false
+
+# treat them as generated (hides diffs in PRs)
+*.ipynb linguist-generated=true
