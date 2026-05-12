@@ -1,0 +1,15 @@
+name: scrnaseq
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.12
+  - pandas>=2,<3
+  - numpy>=1.26
+  - scanpy>=1.10
+  - jupyterlab
+  - samtools           # non-Python — must NOT go into uv
+  - bcftools           # non-Python — must NOT go into uv
+  - pip
+  - pip:
+    - anndata>=0.10

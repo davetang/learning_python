@@ -1,0 +1,15 @@
+[project]
+name = "reproduce-demo"
+version = "0.1.0"
+description = "A tiny prebuilt uv project for the reproduce-env exercise."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "requests>=2.31",
+    "rich>=13",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+]
