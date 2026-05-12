@@ -137,6 +137,64 @@ If you already have a `pyproject.toml` driven by `uv`, you can keep `pyproject.t
 
 If your project is pure Python and you don't need anything outside PyPI, `uv` is the simpler choice and `pixi` is overkill.
 
+### Using a pixi env with R's `reticulate`
+
+`reticulate` is happy to use any Python interpreter you point it at, so a pixi env works fine — you just have to tell `reticulate` where it lives, because pixi envs are not registered in a global conda registry (no `conda env list` to discover them).
+
+A pixi env is laid out like a conda env: `.pixi/envs/<env-name>/bin/python` on Linux/macOS, `.pixi\envs\<env-name>\python.exe` on Windows. The default env is named `default`.
+
+Make sure the env actually contains the Python bits `reticulate` needs:
+
+```console
+pixi add python numpy   # plus whatever else you'll import from R
+pixi install
+```
+
+Then from R, pick one of:
+
+```r
+# Most explicit — point at the interpreter directly
+reticulate::use_python(
+  file.path(".pixi", "envs", "default", "bin", "python"),
+  required = TRUE
+)
+
+# Or treat the pixi env as a conda env (it is one, on disk)
+reticulate::use_condaenv(
+  condaenv = normalizePath(file.path(".pixi", "envs", "default")),
+  required = TRUE
+)
+```
+
+Or set it once for the session via an environment variable, which is convenient in `.Rprofile`, RStudio project options, or a Quarto/Rmd `setup` chunk:
+
+```r
+Sys.setenv(RETICULATE_PYTHON = normalizePath(
+  file.path(".pixi", "envs", "default", "bin", "python")
+))
+library(reticulate)
+```
+
+`required = TRUE` is worth keeping — without it, `reticulate` may silently fall back to a different Python it finds on `PATH`, which defeats the point of pinning the env.
+
+A common ergonomic pattern is to wrap R itself in `pixi run` so the env is already active when R starts. Add an `r-base` dependency and a task in `pixi.toml`:
+
+```toml
+[dependencies]
+python = ">=3.12,<3.13"
+r-base = "*"
+numpy  = "*"
+
+[tasks]
+r       = "R --no-save"
+rstudio = "rstudio"   # if rstudio-desktop is in the env
+render  = "quarto render"
+```
+
+Then `pixi run r` (or `pixi run render` for a Quarto doc) launches R with `RETICULATE_PYTHON` effectively resolved to the pixi env's Python, and `reticulate` will pick it up without any extra configuration in your `.R`/`.Rmd` files. This is the closest pixi equivalent to the `uv run` + `.venv` workflow you get with `reticulate::use_virtualenv(".venv")`.
+
+One caveat: `reticulate::use_virtualenv()` expects a *venv* layout (a `pyvenv.cfg` file at the root), and a pixi env is a *conda* env, so `use_virtualenv()` is not the right function — use `use_python()` or `use_condaenv()` as shown above.
+
 ### Cheat sheet
 
 ```console
