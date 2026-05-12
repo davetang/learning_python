@@ -85,6 +85,57 @@ There is no direct equivalent of `environment.yml`, so the migration is:
 
 For non-Python tools that used to live in the conda env, install them separately (system package manager, `conda` in a side env, or [`pixi`](https://pixi.sh/) which is conda-compatible but uses the same lock-file philosophy as uv).
 
+### Using a uv env with R's `reticulate`
+
+`uv` is the most frictionless way to manage the Python environment that R's [`reticulate`](https://rstudio.github.io/reticulate/) calls into:
+
+* `uv venv` produces a standard virtual environment (`.venv/` with a `pyvenv.cfg`), which is exactly what `reticulate::use_virtualenv()` expects.
+* `reticulate` ≥ 1.41 actually uses `uv` internally for its own package and environment management ([reticulate changelog](https://rstudio.github.io/reticulate/news/)), so the two tools are aligned by design.
+* There are none of the `conda-meta/history` parsing quirks that affect conda-style envs (see the corresponding section in [pixi.md](pixi.md)).
+
+A typical setup:
+
+```console
+uv init myproj && cd myproj
+uv python pin 3.12
+uv add numpy pandas      # whatever you'll import from R
+```
+
+Then from R, any of the following work — `use_virtualenv()` is the most idiomatic:
+
+```r
+# Idiomatic — uv produces a real venv, so this just works
+reticulate::use_virtualenv(".venv", required = TRUE)
+
+# Equivalent, more explicit
+reticulate::use_python(
+  file.path(".venv", "bin", "python"),   # ".venv/Scripts/python.exe" on Windows
+  required = TRUE
+)
+```
+
+Or set it once for the session — convenient in `.Rprofile`, RStudio project options (Tools → Project Options → Python), or a Quarto/Rmd `setup` chunk:
+
+```r
+Sys.setenv(RETICULATE_PYTHON = normalizePath(
+  file.path(".venv", "bin", "python")
+))
+library(reticulate)
+```
+
+`RETICULATE_PYTHON` overrides every other `use_*()` call, which is what you want when RStudio initialises Python before your code runs. Keep `required = TRUE` on the `use_*()` variants so `reticulate` errors loudly instead of silently falling back to a system Python on `PATH`.
+
+To launch R with the env already on `PATH`, wrap it with `uv run`. Note that `uv` itself only manages Python — R has to come from somewhere else (system, [`rig`](https://github.com/r-lib/rig), or conda/pixi in a side env):
+
+```console
+uv run R --no-save                    # if R is on the system PATH
+uv run quarto render report.qmd       # Quarto picks up the venv's Python
+```
+
+This is the closest equivalent to `pixi run r` for the Python side, without `pixi`'s ability to pin R itself.
+
+When **not** to pick `uv` for `reticulate`: if the Python env you need from R requires non-Python conda packages (e.g. Python code that shells out to `samtools`, or a specific CUDA `pytorch` build from `conda-forge`), `uv` cannot install those — use `pixi` for that env and accept the small amount of extra wiring documented in [pixi.md](pixi.md). For pure-Python use, `uv` is the cleaner choice.
+
 ### Cheat sheet
 
 ```console
