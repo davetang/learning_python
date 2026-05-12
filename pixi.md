@@ -139,11 +139,11 @@ If your project is pure Python and you don't need anything outside PyPI, `uv` is
 
 ### Using a pixi env with R's `reticulate`
 
-`reticulate` is happy to use any Python interpreter you point it at, so a pixi env works fine — you just have to tell `reticulate` where it lives, because pixi envs are not registered in a global conda registry (no `conda env list` to discover them).
+There is **no native pixi support in `reticulate`** ([rstudio/reticulate#1650](https://github.com/rstudio/reticulate/issues/1650), open since Aug 2024 — `reticulate` has no `use_pixi()`, and RStudio's Python pane won't auto-discover `.pixi/envs/...`). However, a pixi env is a conda env on disk, and `reticulate` accepts arbitrary interpreter paths and conda-env prefix paths, so the standard mechanisms work as long as you wire them up explicitly. Recent reports (e.g. [laminlabs/laminr#184](https://github.com/laminlabs/laminr/issues/184)) confirm pixi + `reticulate` is used in practice.
 
-A pixi env is laid out like a conda env: `.pixi/envs/<env-name>/bin/python` on Linux/macOS, `.pixi\envs\<env-name>\python.exe` on Windows. The default env is named `default`.
+A pixi env lives at `.pixi/envs/<env-name>/bin/python` on Linux/macOS or `.pixi\envs\<env-name>\python.exe` on Windows; the default env is named `default`.
 
-Make sure the env actually contains the Python bits `reticulate` needs:
+First, make sure the env contains the Python bits you need:
 
 ```console
 pixi add python numpy   # plus whatever else you'll import from R
@@ -159,7 +159,9 @@ reticulate::use_python(
   required = TRUE
 )
 
-# Or treat the pixi env as a conda env (it is one, on disk)
+# Or treat the pixi env as a conda env (it is one, on disk).
+# use_condaenv() accepts a name, an absolute prefix path, or a path
+# to the python binary.
 reticulate::use_condaenv(
   condaenv = normalizePath(file.path(".pixi", "envs", "default")),
   required = TRUE
@@ -175,25 +177,42 @@ Sys.setenv(RETICULATE_PYTHON = normalizePath(
 library(reticulate)
 ```
 
-`required = TRUE` is worth keeping — without it, `reticulate` may silently fall back to a different Python it finds on `PATH`, which defeats the point of pinning the env.
+`RETICULATE_PYTHON` overrides every other `use_*()` call, so it is the most reliable approach when you want RStudio (which may try to initialise Python before your code runs) to pick the right interpreter on session start. `required = TRUE` on `use_python()`/`use_condaenv()` is also worth keeping — without it, `reticulate` may silently fall back to a different Python it finds on `PATH`.
 
-A common ergonomic pattern is to wrap R itself in `pixi run` so the env is already active when R starts. Add an `r-base` dependency and a task in `pixi.toml`:
+`reticulate::use_virtualenv()` is **not** the right function here: it expects a venv layout (a `pyvenv.cfg` file at the root), and a pixi env is a conda env. Use `use_python()`, `use_condaenv()`, or `RETICULATE_PYTHON`.
+
+#### Known gotcha: `conda-meta/history`
+
+`reticulate` parses `<env>/conda-meta/history` to locate the `conda` binary that created the env, and on older `reticulate` versions a malformed or unexpected history file (which pixi-generated envs have historically had) could make `reticulate` pick the wrong `conda` and ignore your `use_python()`/`use_condaenv()` configuration ([rstudio/reticulate#1654](https://github.com/rstudio/reticulate/issues/1654), fixed in PR #1659; pixi-side fix in [prefix-dev/pixi#1117](https://github.com/prefix-dev/pixi/pull/1117)). On current `reticulate` (≥ ~1.39) and current `pixi` this should not happen.
+
+If you do hit it on an older stack, the documented workaround (used by `laminr` and others) is to rewrite the history file inside the env:
+
+```bash
+echo -e "# cmd: $CONDA_PREFIX/bin/conda" > "$CONDA_PREFIX/conda-meta/history"
+```
+
+Run it once after `pixi install`; you can wire it into a pixi task so it always runs before R starts.
+
+#### Wrapping R in `pixi run`
+
+A clean ergonomic pattern is to put R itself inside the pixi env so the env is already "active" when R starts. Add `r-base` (and optionally `r-reticulate`) as dependencies and define tasks:
 
 ```toml
 [dependencies]
-python = ">=3.12,<3.13"
-r-base = "*"
-numpy  = "*"
+python       = ">=3.12,<3.13"
+r-base       = "*"
+r-reticulate = "*"
+numpy        = "*"
 
 [tasks]
 r       = "R --no-save"
-rstudio = "rstudio"   # if rstudio-desktop is in the env
+rstudio = "rstudio"          # if rstudio-desktop is available on your platform
 render  = "quarto render"
 ```
 
-Then `pixi run r` (or `pixi run render` for a Quarto doc) launches R with `RETICULATE_PYTHON` effectively resolved to the pixi env's Python, and `reticulate` will pick it up without any extra configuration in your `.R`/`.Rmd` files. This is the closest pixi equivalent to the `uv run` + `.venv` workflow you get with `reticulate::use_virtualenv(".venv")`.
+Then `pixi run r`, `pixi run rstudio`, or `pixi run render` launches the tool with the pixi env's `bin/` on `PATH`, so `reticulate` finds the env's Python by default. This is the closest pixi equivalent to the `uv run` + `reticulate::use_virtualenv(".venv")` workflow.
 
-One caveat: `reticulate::use_virtualenv()` expects a *venv* layout (a `pyvenv.cfg` file at the root), and a pixi env is a *conda* env, so `use_virtualenv()` is not the right function — use `use_python()` or `use_condaenv()` as shown above.
+Caveat on `pixi run rstudio`: `rstudio-desktop` is available from `conda-forge` for Linux but coverage on macOS/Windows is inconsistent. On those platforms, launching system RStudio and setting `RETICULATE_PYTHON` (via `.Rprofile` or RStudio project options → Python) is the more reliable route.
 
 ### Cheat sheet
 
