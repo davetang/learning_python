@@ -14,26 +14,27 @@ You do **not** need an existing Python installation; uv will install one for you
 
 ## Install uv
 
-Pick one of the following:
+Recommended way to install on macOS / Linux; note that it will install to `${HOME}/.local/bin`.
 
 ```console
-# macOS / Linux (recommended)
 curl -LsSf https://astral.sh/uv/install.sh | sh
-
-# Homebrew
-brew install uv
-
-# pipx (if you already have it)
-pipx install uv
-
-# Windows PowerShell
-powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+```
+```
+curl -LsSf https://astral.sh/uv/install.sh | sh
+downloading uv 0.11.13 x86_64-unknown-linux-gnu
+installing to ${HOME}/.local/bin
+  uv
+  uvx
+everything's installed!
 ```
 
 Confirm it works:
 
 ```console
 uv --version
+```
+```
+uv 0.11.13 (x86_64-unknown-linux-gnu)
 ```
 
 Any recent release (0.5 or later) covers every command used in this tutorial.
